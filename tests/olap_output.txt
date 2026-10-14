@@ -1,0 +1,153 @@
+Parameter otomatis: tahun=2027, region=Sumatera, material_type=Metal
+=== 1. SLICE: produksi tahun terpilih per material_type ===
+material_type total_produksi jumlah_baris
+------------- -------------- ------------
+Metal 156475.00 569
+Ore 41482.00 159
+=== 2. DICE: tahun + region + material_type terpilih, per kuartal dan material ===
+quarter material_name total_produksi total_biaya
+------- ------------- -------------- -----------
+1 Copper 4490.00 1466126.0000
+1 Gold 6814.00 1728436.0000
+1 Iron 2732.00 723002.0000
+1 Nickel 4162.00 1450016.0000
+2 Copper 5430.00 1387128.0000
+2 Gold 4832.00 1493030.0000
+2 Iron 3400.00 929064.0000
+2 Nickel 2930.00 900786.0000
+3 Copper 5374.00 1124592.0000
+3 Gold 5754.00 1575000.0000
+3 Iron 2850.00 837686.0000
+3 Nickel 6716.00 2235076.0000
+4 Copper 3424.00 978330.0000
+4 Gold 2744.00 1145736.0000
+4 Iron 3844.00 1181338.0000
+4 Nickel 1572.00 365158.0000
+=== 3. ROLL-UP: tahun > kuartal > bulan (baris pertama = grand total) ===
+year quarter month level_agregasi total_produksi
+---- ------- ----- -------------- --------------
+NULL NULL NULL 7 596200.00
+2022 NULL NULL 3 48792.00
+2022 1 NULL 1 40094.00
+2022 1 1 0 15640.00
+2022 1 2 0 13987.00
+2022 1 3 0 10467.00
+2022 2 NULL 1 8698.00
+2022 2 4 0 8698.00
+2025 NULL NULL 3 110971.00
+2025 2 NULL 1 31147.00
+2025 2 5 0 15640.00
+2025 2 6 0 15507.00
+2025 3 NULL 1 42847.00
+2025 3 7 0 12613.00
+2025 3 8 0 13649.00
+2025 3 9 0 16585.00
+2025 4 NULL 1 36977.00
+2025 4 10 0 12702.00
+2025 4 11 0 13059.00
+2025 4 12 0 11216.00
+2026 NULL NULL 3 150218.00
+2026 1 NULL 1 30620.00
+2026 1 1 0 12475.00
+2026 1 2 0 10000.00
+2026 1 3 0 8145.00
+2026 2 NULL 1 38430.00
+2026 2 4 0 12482.00
+2026 2 5 0 12424.00
+2026 2 6 0 13524.00
+2026 3 NULL 1 43157.00
+2026 3 7 0 13698.00
+2026 3 8 0 13393.00
+2026 3 9 0 16066.00
+2026 4 NULL 1 38011.00
+2026 4 10 0 13777.00
+2026 4 11 0 14020.00
+2026 4 12 0 10214.00
+2027 NULL NULL 3 197957.00
+2027 1 NULL 1 52307.00
+2027 1 1 0 17422.00
+2027 1 2 0 17874.00
+2027 1 3 0 17011.00
+2027 2 NULL 1 46610.00
+2027 2 4 0 14429.00
+2027 2 5 0 19436.00
+2027 2 6 0 12745.00
+2027 3 NULL 1 57243.00
+2027 3 7 0 24295.00
+2027 3 8 0 16167.00
+2027 3 9 0 16781.00
+2027 4 NULL 1 41797.00
+2027 4 10 0 13721.00
+2027 4 11 0 13091.00
+2027 4 12 0 14985.00
+2028 NULL NULL 3 88262.00
+2028 1 NULL 1 49291.00
+2028 1 1 0 15742.00
+2028 1 2 0 17300.00
+2028 1 3 0 16249.00
+2028 2 NULL 1 38971.00
+2028 2 4 0 12152.00
+2028 2 5 0 13468.00
+2028 2 6 0 13351.00
+=== 4a. DRILL-DOWN level 1: produksi per region (tahun terpilih) ===
+region total_produksi
+------ --------------
+Sumatera 90306.00
+Kalimantan 86472.00
+Papua 21179.00
+=== 4b. DRILL-DOWN level 2: site dalam region terpilih ===
+region site_name total_produksi
+------ --------- --------------
+Sumatera Quarry A 90306.00
+=== 4c. DRILL-DOWN level 3: material per site dalam region terpilih ===
+site_name material_name total_produksi
+--------- ------------- --------------
+Quarry A Coal 23238.00
+Quarry A Gold 20144.00
+Quarry A Copper 18718.00
+Quarry A Nickel 15380.00
+Quarry A Iron 12826.00
+=== 5. PIVOT (dinamis): produksi per bulan x material_name, tahun terpilih ===
+month month_name Coal Copper Gold Iron Nickel
+----- ---------- ---- ------ ---- ---- ------
+1 January 6750.00 4240.00 2079.00 824.00 3529.00
+2 February 2586.00 4443.00 5145.00 2812.00 2888.00
+3 March 3473.00 3405.00 4102.00 3194.00 2837.00
+4 April 3536.00 4288.00 892.00 2523.00 3190.00
+5 May 6054.00 2064.00 5608.00 2690.00 3020.00
+6 June 2382.00 514.00 4335.00 2749.00 2765.00
+7 July 4450.00 5512.00 4952.00 2652.00 6729.00
+8 August 1619.00 5020.00 3234.00 1328.00 4966.00
+9 September 1786.00 2752.00 5345.00 3720.00 3178.00
+10 October 2559.00 2658.00 4342.00 3267.00 895.00
+11 November 2524.00 3471.00 2290.00 3012.00 1794.00
+12 December 3763.00 3045.00 2841.00 1146.00 4190.00
+=== 6. DRILL-ACROSS tanpa fan-out: produksi, alat, keuangan per bulan ===
+Bagian 6 memakai tahun irisan ketiga fakta: 2025
+month produksi biaya_produksi jam_operasi jam_downtime rata_efisiensi anggaran realisasi
+----- -------- -------------- ----------- ------------ -------------- -------- ---------
+5 15640.00 5001594.0000 36293213.00 1672385.00 .956029379935 2107791476.00 2307600075.00
+6 15507.00 4686573.0000 NULL NULL NULL 1354139572.00 1357711597.00
+7 12613.00 3536189.0000 NULL NULL NULL 1233683700.00 1260493814.00
+8 13649.00 3896164.0000 NULL NULL NULL 421099763.00 519958547.00
+9 16585.00 4851644.0000 NULL NULL NULL NULL NULL
+10 12702.00 3433852.0000 NULL NULL NULL NULL NULL
+11 13059.00 3953211.0000 NULL NULL NULL NULL NULL
+12 11216.00 3409217.0000 NULL NULL NULL NULL NULL
+=== 7. COVERAGE: cakupan data per tahun untuk tiga tabel fakta ===
+year produksi jam_operasi realisasi_biaya
+---- -------- ----------- ---------------
+2022 48792.00 36293213.00 7399407166.00
+2025 110971.00 36293213.00 5445764033.00
+2026 150218.00 NULL NULL
+2027 197957.00 NULL NULL
+2028 88262.00 NULL NULL
+=== 8. PEMBANDING README: produksi per material_type, tahun >= 2025 (README: Metal 434.721, Ore 112.687) ===
+material_type total_produksi
+------------- --------------
+Metal 434721.00
+Ore 112687.00
+=== SELF-TEST: grand total ROLLUP = total langsung ===
+status total_langsung total_via_dimensi
+------ -------------- -----------------
+PASS 596200.00 596200.00

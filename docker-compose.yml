@@ -16,6 +16,7 @@ services:
       - sqlserver_data:/var/opt/mssql
       - ./data:/data
       - ./init-scripts:/init-scripts
+      - ./tests:/tests:ro
       - ./misi3:/scripts
     networks:
       - dw_network

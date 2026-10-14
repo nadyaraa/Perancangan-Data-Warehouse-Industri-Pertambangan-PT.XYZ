@@ -36,9 +36,9 @@ def get_sql_connection():
     """Create SQL Server connection"""
     try:
         conn = pymssql.connect(
-            server='localhost',
-            port=1433,
-            database='PTXYZ_DataWarehouse',
+            server=os.environ.get('MSSQL_HOST', 'localhost'),
+            port=int(os.environ.get('MSSQL_PORT', '1433')),
+            database=os.environ.get('MSSQL_DB', 'PTXYZ_DataWarehouse'),
             user='sa',
             password=os.environ['MSSQL_SA_PASSWORD'],
             timeout=30

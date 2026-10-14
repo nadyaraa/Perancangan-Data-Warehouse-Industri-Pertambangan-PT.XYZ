@@ -11,7 +11,7 @@ SQLCMD = docker compose exec -T $(SQLSERVER_SVC) sh -c '/opt/mssql-tools18/bin/s
 
 .PHONY: all up wait etl validate schema-baseline test-schema down
 
-all: up wait etl test-schema validate
+all: up wait etl test-schema validate olap
 
 up:
 	docker compose up -d
@@ -37,3 +37,7 @@ test-schema:
 
 down:
 	docker compose down
+
+.PHONY: olap
+olap:
+	docker compose exec -T sqlserver sh -c '/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$MSSQL_SA_PASSWORD" -C -N -b -W -d PTXYZ_DataWarehouse -i /tests/olap.sql' > tests/olap_output.txt 2>&1; rc=$$?; cat tests/olap_output.txt; exit $$rc

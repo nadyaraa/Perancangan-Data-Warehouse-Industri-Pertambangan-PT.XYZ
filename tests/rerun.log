@@ -1,142 +1,375 @@
-python standalone_etl.py 2>&1 | tee tests/etl.log
-2026-10-14 13:26:24,346 - INFO - ================================================================================
-2026-10-14 13:26:24,346 - INFO - PT XYZ Data Warehouse - Complete ETL Pipeline Execution
-2026-10-14 13:26:24,346 - INFO - ================================================================================
-2026-10-14 13:26:24,346 - INFO - 🚀 Starting PT XYZ Complete ETL Pipeline...
-2026-10-14 13:26:24,346 - INFO - 📥 Step 1: Extracting and loading data to staging tables...
-2026-10-14 13:26:24,358 - INFO - Clearing staging tables...
-2026-10-14 13:26:24,361 - INFO - Loading Equipment Usage data...
-2026-10-14 13:26:24,445 - INFO - Loaded 100 equipment records...
-2026-10-14 13:26:24,515 - INFO - Loaded 200 equipment records...
-2026-10-14 13:26:24,585 - INFO - Loaded 300 equipment records...
-2026-10-14 13:26:24,657 - INFO - Loaded 400 equipment records...
-2026-10-14 13:26:24,726 - INFO - Loaded 500 equipment records...
-2026-10-14 13:26:24,806 - INFO - Loaded 600 equipment records...
-2026-10-14 13:26:24,882 - INFO - Loaded 700 equipment records...
-2026-10-14 13:26:24,969 - INFO - Loaded 800 equipment records...
-2026-10-14 13:26:25,064 - INFO - Loaded 900 equipment records...
-2026-10-14 13:26:25,158 - INFO - Loaded 1000 equipment records...
-2026-10-14 13:26:25,261 - INFO - Loaded 1100 equipment records...
-2026-10-14 13:26:25,320 - INFO - Loaded 1150 equipment usage records
-2026-10-14 13:26:25,320 - INFO - Loading Production data...
-2026-10-14 13:26:25,454 - INFO - Loaded 100 production records...
-2026-10-14 13:26:25,577 - INFO - Loaded 200 production records...
-2026-10-14 13:26:25,689 - INFO - Loaded 300 production records...
-2026-10-14 13:26:25,794 - INFO - Loaded 400 production records...
-2026-10-14 13:26:25,897 - INFO - Loaded 500 production records...
-2026-10-14 13:26:26,001 - INFO - Loaded 600 production records...
-2026-10-14 13:26:26,104 - INFO - Loaded 700 production records...
-2026-10-14 13:26:26,195 - INFO - Loaded 800 production records...
-2026-10-14 13:26:26,280 - INFO - Loaded 900 production records...
-2026-10-14 13:26:26,369 - INFO - Loaded 1000 production records...
-2026-10-14 13:26:26,454 - INFO - Loaded 1100 production records...
-2026-10-14 13:26:26,494 - INFO - Loaded 1150 production records
-2026-10-14 13:26:26,495 - INFO - Loading Financial Transaction data...
-2026-10-14 13:26:26,583 - INFO - Loaded 100 transaction records...
-2026-10-14 13:26:26,662 - INFO - Loaded 200 transaction records...
-2026-10-14 13:26:26,751 - INFO - Loaded 300 transaction records...
-2026-10-14 13:26:26,861 - INFO - Loaded 400 transaction records...
-2026-10-14 13:26:26,954 - INFO - Loaded 500 transaction records...
-2026-10-14 13:26:27,047 - INFO - Loaded 600 transaction records...
-2026-10-14 13:26:27,141 - INFO - Loaded 700 transaction records...
-2026-10-14 13:26:27,225 - INFO - Loaded 800 transaction records...
-2026-10-14 13:26:27,317 - INFO - Loaded 900 transaction records...
-2026-10-14 13:26:27,405 - INFO - Loaded 1000 transaction records...
-2026-10-14 13:26:27,483 - INFO - Loaded 1100 transaction records...
-2026-10-14 13:26:27,521 - INFO - Loaded 1150 transaction records
-2026-10-14 13:26:27,542 - INFO - Data successfully loaded to staging tables
-2026-10-14 13:26:27,543 - INFO - ✅ Step 1 completed: Staging load completed
-2026-10-14 13:26:29,543 - INFO - 🔄 Step 2: Transforming and loading dimension tables...
-2026-10-14 13:26:29,553 - INFO - Loading Time Dimension...
-2026-10-14 13:26:29,892 - INFO - Loading Site Dimension...
-2026-10-14 13:26:30,306 - INFO - Loading Equipment Dimension...
-2026-10-14 13:26:30,479 - INFO - Loading Material Dimension...
-2026-10-14 13:26:30,563 - INFO - Loading Employee Dimension...
-2026-10-14 13:26:30,672 - INFO - Loading Shift Dimension...
-2026-10-14 13:26:30,747 - INFO - Loading Project Dimension...
-2026-10-14 13:26:30,869 - INFO - Loading Account Dimension...
-2026-10-14 13:26:30,987 - INFO - Dimension tables loaded successfully
-2026-10-14 13:26:30,988 - INFO - ✅ Step 2 completed: Dimension load completed
-2026-10-14 13:26:32,988 - INFO - 📊 Step 3: Loading fact tables...
-2026-10-14 13:26:32,999 - INFO - Loading FactEquipmentUsage...
-2026-10-14 13:26:35,355 - INFO - Loading FactProduction...
-2026-10-14 13:26:35,486 - INFO - Loading FactFinancialTransaction...
-2026-10-14 13:26:35,684 - INFO - Fact tables loaded successfully
-2026-10-14 13:26:35,684 - INFO - ✅ Step 3 completed: Fact load completed
-2026-10-14 13:26:37,685 - INFO - 🔍 Step 4: Running data quality checks...
-2026-10-14 13:26:37,695 - INFO - Data Quality Check Results:
-2026-10-14 13:26:37,695 - INFO - ==================================================
-2026-10-14 13:26:37,696 - INFO - Staging Equipment Usage        :    1,150 records
-2026-10-14 13:26:37,697 - INFO - Staging Production             :    1,150 records
-2026-10-14 13:26:37,698 - INFO - Staging Financial Transaction  :    1,150 records
-2026-10-14 13:26:37,699 - INFO - Time Dimension                 :      830 records
-2026-10-14 13:26:37,700 - INFO - Site Dimension                 :    1,747 records
-2026-10-14 13:26:37,701 - INFO - Equipment Dimension            :        6 records
-2026-10-14 13:26:37,702 - INFO - Material Dimension             :        5 records
-2026-10-14 13:26:37,703 - INFO - Employee Dimension             :       10 records
-2026-10-14 13:26:37,703 - INFO - Shift Dimension                :        3 records
-2026-10-14 13:26:37,704 - INFO - Project Dimension              :       50 records
-2026-10-14 13:26:37,705 - INFO - Account Dimension              :       30 records
-2026-10-14 13:26:37,722 - INFO - Equipment Usage Fact           :  236,892 records
-2026-10-14 13:26:37,724 - INFO - Production Fact                :    2,261 records
-2026-10-14 13:26:37,734 - INFO - Financial Transaction Fact     :  115,901 records
-2026-10-14 13:26:37,734 - INFO - ==================================================
-2026-10-14 13:26:37,734 - INFO - ✅ Step 4 completed: Data quality check completed
-2026-10-14 13:26:37,734 - INFO - 🎉 Complete ETL Pipeline Successfully Executed!
-2026-10-14 13:26:37,734 - INFO - 📈 Data Warehouse is now ready for analytics and visualization!
-2026-10-14 13:26:37,734 - INFO - ✅ ETL Pipeline completed successfully!
-2026-10-14 13:26:37,734 - INFO - 🌐 You can now access:
-2026-10-14 13:26:37,734 - INFO -    - Airflow UI: http://localhost:8080
-2026-10-14 13:26:37,734 - INFO -    - Grafana: http://localhost:3000
-2026-10-14 13:26:37,734 - INFO -    - Superset: http://localhost:8088
-2026-10-14 13:26:37,734 - INFO -    - Metabase: http://localhost:3001
-2026-10-14 13:26:37,734 - INFO -    - Jupyter: http://localhost:8888
-docker compose exec -T sqlserver sh -c '/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$MSSQL_SA_PASSWORD" -C -N -b -W -d PTXYZ_DataWarehouse' < tests/validate.sql
-grup pengujian diharapkan hasil status
----- --------- ---------- ----- ------
-AGREGAT baris peralatan sejak 2025-05-01 118446 118446 PASS
-AGREGAT efisiensi rata-rata (%) [selisih terdokumentasi] 95.66 95.6029 WARN
-AGREGAT produksi Metal sejak 2025-05-01 434721.00 434721.00 PASS
-AGREGAT produksi Ore sejak 2025-05-01 112687.00 112687.00 PASS
-BARIS dim.DimAccount 30 30 PASS
-BARIS dim.DimEmployee 10 10 PASS
-BARIS dim.DimEquipment 6 6 PASS
-BARIS dim.DimMaterial 5 5 PASS
-BARIS dim.DimProject 50 50 PASS
-BARIS dim.DimShift 3 3 PASS
-BARIS dim.DimSite 1747 1747 PASS
-BARIS dim.DimTime 830 830 PASS
-BARIS fact.FactEquipmentUsage 236892 236892 PASS
-BARIS fact.FactFinancialTransaction 115901 115901 PASS
-BARIS fact.FactProduction 2261 2261 PASS
-DQ duplikasi tanggal di DimTime 0 0 PASS
-DQ efficiency_ratio di luar [0,1] 0 0 PASS
-DQ jam operasi/downtime negatif 0 0 PASS
-DQ produced_volume negatif 0 0 PASS
-ORPHAN fact.FactEquipmentUsage.equipment_key -> dim.DimEquipment 0 0 PASS
-ORPHAN fact.FactEquipmentUsage.site_key -> dim.DimSite 0 0 PASS
-ORPHAN fact.FactEquipmentUsage.time_key -> dim.DimTime 0 0 PASS
-ORPHAN fact.FactFinancialTransaction.account_key -> dim.DimAccount 0 0 PASS
-ORPHAN fact.FactFinancialTransaction.project_key -> dim.DimProject 0 0 PASS
-ORPHAN fact.FactFinancialTransaction.site_key -> dim.DimSite 0 0 PASS
-ORPHAN fact.FactFinancialTransaction.time_key -> dim.DimTime 0 0 PASS
-ORPHAN fact.FactProduction.employee_key -> dim.DimEmployee 0 0 PASS
-ORPHAN fact.FactProduction.material_key -> dim.DimMaterial 0 0 PASS
-ORPHAN fact.FactProduction.shift_key -> dim.DimShift 0 0 PASS
-ORPHAN fact.FactProduction.site_key -> dim.DimSite 0 0 PASS
-ORPHAN fact.FactProduction.time_key -> dim.DimTime 0 0 PASS
-ORPHAN jumlah FK fact->dim terdeteksi (>0) >0 12 PASS
-SKEMA tabel ada: dim.DimAccount ada ada PASS
-SKEMA tabel ada: dim.DimEmployee ada ada PASS
-SKEMA tabel ada: dim.DimEquipment ada ada PASS
-SKEMA tabel ada: dim.DimMaterial ada ada PASS
-SKEMA tabel ada: dim.DimProject ada ada PASS
-SKEMA tabel ada: dim.DimShift ada ada PASS
-SKEMA tabel ada: dim.DimSite ada ada PASS
-SKEMA tabel ada: dim.DimTime ada ada PASS
-SKEMA tabel ada: fact.FactEquipmentUsage ada ada PASS
-SKEMA tabel ada: fact.FactFinancialTransaction ada ada PASS
-SKEMA tabel ada: fact.FactProduction ada ada PASS
+Semua patch sudah terpasang (tidak ada perubahan).
+docker compose up -d
+ Container ptxyz_postgres Running 
+ Container ptxyz_jupyter Running 
+ Container ptxyz_redis Running 
+ Container ptxyz_postgres_metabase Running 
+ Container ptxyz_sqlserver Running 
+ Container ptxyz_metabase Running 
+ Container ptxyz_grafana Running 
+ Container ptxyz_superset Running 
+ Container ptxyz_airflow_webserver Running 
+ Container ptxyz_airflow_worker Running 
+ Container ptxyz_airflow_scheduler Running 
+ Container ptxyz_sqlserver Waiting 
+ Container ptxyz_postgres Waiting 
+ Container ptxyz_postgres_metabase Waiting 
+ Container ptxyz_postgres Waiting 
+ Container ptxyz_redis Waiting 
+ Container ptxyz_sqlserver Waiting 
+ Container ptxyz_redis Waiting 
+ Container ptxyz_sqlserver Waiting 
+ Container ptxyz_sqlserver Waiting 
+ Container ptxyz_postgres Waiting 
+ Container ptxyz_sqlserver Waiting 
+ Container ptxyz_redis Waiting 
+ Container ptxyz_sqlserver Waiting 
+ Container ptxyz_redis Healthy 
+ Container ptxyz_sqlserver Healthy 
+ Container ptxyz_sqlserver Healthy 
+ Container ptxyz_db_init Starting 
+ Container ptxyz_postgres_metabase Healthy 
+ Container ptxyz_sqlserver Healthy 
+ Container ptxyz_postgres Healthy 
+ Container ptxyz_sqlserver Healthy 
+ Container ptxyz_redis Healthy 
+ Container ptxyz_sqlserver Healthy 
+ Container ptxyz_sqlserver Healthy 
+ Container ptxyz_redis Healthy 
+ Container ptxyz_postgres Healthy 
+ Container ptxyz_postgres Healthy 
+ Container ptxyz_db_init Started 
+Layanan: SQL Server :1433 | Airflow :8080 | Grafana :3000 | Superset :8088 | Metabase :3001 | Jupyter :8888
+menunggu db_init (running) 10s/900s ...
+menunggu db_init (running) 20s/900s ...
+menunggu db_init (running) 30s/900s ...
+menunggu db_init (running) 40s/900s ...
+menunggu db_init (running) 50s/900s ...
+db_init selesai (database & skema siap).
+docker run --rm --network ptxyz-dw_dw_network -v "/home/tongo_wubun7/Perancangan-Data-Warehouse-Industri-Pertambangan-PT.XYZ":/work -w /work -e MSSQL_HOST=sqlserver python:3.12-slim \
+  sh -c "pip install -q --no-cache-dir pandas pymssql && python standalone_etl.py; rc=\$?; chown 1000:1000 etl_execution.log 2>/dev/null; exit \$rc"
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+
+[notice] A new release of pip is available: 25.0.1 -> 26.2.1
+[notice] To update, run: pip install --upgrade pip
+2026-10-14 07:46:55,627 - INFO - ================================================================================
+2026-10-14 07:46:55,629 - INFO - PT XYZ Data Warehouse - Complete ETL Pipeline Execution
+2026-10-14 07:46:55,629 - INFO - ================================================================================
+2026-10-14 07:46:55,629 - INFO - 🚀 Starting PT XYZ Complete ETL Pipeline...
+2026-10-14 07:46:55,629 - INFO - 📥 Step 1: Extracting and loading data to staging tables...
+2026-10-14 07:46:55,652 - INFO - Clearing staging tables...
+2026-10-14 07:46:55,656 - INFO - Loading Equipment Usage data...
+2026-10-14 07:46:55,750 - INFO - Loaded 100 equipment records...
+2026-10-14 07:46:55,822 - INFO - Loaded 200 equipment records...
+2026-10-14 07:46:55,891 - INFO - Loaded 300 equipment records...
+2026-10-14 07:46:55,960 - INFO - Loaded 400 equipment records...
+2026-10-14 07:46:56,036 - INFO - Loaded 500 equipment records...
+2026-10-14 07:46:56,111 - INFO - Loaded 600 equipment records...
+2026-10-14 07:46:56,185 - INFO - Loaded 700 equipment records...
+2026-10-14 07:46:56,259 - INFO - Loaded 800 equipment records...
+2026-10-14 07:46:56,332 - INFO - Loaded 900 equipment records...
+2026-10-14 07:46:56,403 - INFO - Loaded 1000 equipment records...
+2026-10-14 07:46:56,477 - INFO - Loaded 1100 equipment records...
+2026-10-14 07:46:56,514 - INFO - Loaded 1150 equipment usage records
+2026-10-14 07:46:56,514 - INFO - Loading Production data...
+2026-10-14 07:46:56,599 - INFO - Loaded 100 production records...
+2026-10-14 07:46:56,673 - INFO - Loaded 200 production records...
+2026-10-14 07:46:56,738 - INFO - Loaded 300 production records...
+2026-10-14 07:46:56,804 - INFO - Loaded 400 production records...
+2026-10-14 07:46:56,870 - INFO - Loaded 500 production records...
+2026-10-14 07:46:56,938 - INFO - Loaded 600 production records...
+2026-10-14 07:46:57,009 - INFO - Loaded 700 production records...
+2026-10-14 07:46:57,078 - INFO - Loaded 800 production records...
+2026-10-14 07:46:57,148 - INFO - Loaded 900 production records...
+2026-10-14 07:46:57,216 - INFO - Loaded 1000 production records...
+2026-10-14 07:46:57,285 - INFO - Loaded 1100 production records...
+2026-10-14 07:46:57,321 - INFO - Loaded 1150 production records
+2026-10-14 07:46:57,321 - INFO - Loading Financial Transaction data...
+2026-10-14 07:46:57,400 - INFO - Loaded 100 transaction records...
+2026-10-14 07:46:57,466 - INFO - Loaded 200 transaction records...
+2026-10-14 07:46:57,533 - INFO - Loaded 300 transaction records...
+2026-10-14 07:46:57,605 - INFO - Loaded 400 transaction records...
+2026-10-14 07:46:57,673 - INFO - Loaded 500 transaction records...
+2026-10-14 07:46:57,742 - INFO - Loaded 600 transaction records...
+2026-10-14 07:46:57,810 - INFO - Loaded 700 transaction records...
+2026-10-14 07:46:57,879 - INFO - Loaded 800 transaction records...
+2026-10-14 07:46:57,946 - INFO - Loaded 900 transaction records...
+2026-10-14 07:46:58,016 - INFO - Loaded 1000 transaction records...
+2026-10-14 07:46:58,085 - INFO - Loaded 1100 transaction records...
+2026-10-14 07:46:58,120 - INFO - Loaded 1150 transaction records
+2026-10-14 07:46:58,139 - INFO - Data successfully loaded to staging tables
+2026-10-14 07:46:58,140 - INFO - ✅ Step 1 completed: Staging load completed
+2026-10-14 07:47:00,140 - INFO - 🔄 Step 2: Transforming and loading dimension tables...
+2026-10-14 07:47:00,149 - INFO - Loading Time Dimension...
+2026-10-14 07:47:00,607 - INFO - Loading Site Dimension...
+2026-10-14 07:47:00,859 - INFO - Loading Equipment Dimension...
+2026-10-14 07:47:00,919 - INFO - Loading Material Dimension...
+2026-10-14 07:47:00,956 - INFO - Loading Employee Dimension...
+2026-10-14 07:47:01,021 - INFO - Loading Shift Dimension...
+2026-10-14 07:47:01,071 - INFO - Loading Project Dimension...
+2026-10-14 07:47:01,149 - INFO - Loading Account Dimension...
+2026-10-14 07:47:01,208 - INFO - Dimension tables loaded successfully
+2026-10-14 07:47:01,208 - INFO - ✅ Step 2 completed: Dimension load completed
+2026-10-14 07:47:03,208 - INFO - 📊 Step 3: Loading fact tables...
+2026-10-14 07:47:03,227 - INFO - Loading FactEquipmentUsage...
+2026-10-14 07:47:05,155 - INFO - Loading FactProduction...
+2026-10-14 07:47:05,222 - INFO - Loading FactFinancialTransaction...
+2026-10-14 07:47:05,301 - INFO - Fact tables loaded successfully
+2026-10-14 07:47:05,301 - INFO - ✅ Step 3 completed: Fact load completed
+2026-10-14 07:47:07,301 - INFO - 🔍 Step 4: Running data quality checks...
+2026-10-14 07:47:07,322 - INFO - Data Quality Check Results:
+2026-10-14 07:47:07,322 - INFO - ==================================================
+2026-10-14 07:47:07,323 - INFO - Staging Equipment Usage        :    1,150 records
+2026-10-14 07:47:07,325 - INFO - Staging Production             :    1,150 records
+2026-10-14 07:47:07,326 - INFO - Staging Financial Transaction  :    1,150 records
+2026-10-14 07:47:07,328 - INFO - Time Dimension                 :      830 records
+2026-10-14 07:47:07,329 - INFO - Site Dimension                 :    1,747 records
+2026-10-14 07:47:07,331 - INFO - Equipment Dimension            :        6 records
+2026-10-14 07:47:07,332 - INFO - Material Dimension             :        5 records
+2026-10-14 07:47:07,333 - INFO - Employee Dimension             :       10 records
+2026-10-14 07:47:07,334 - INFO - Shift Dimension                :        3 records
+2026-10-14 07:47:07,336 - INFO - Project Dimension              :       50 records
+2026-10-14 07:47:07,337 - INFO - Account Dimension              :       30 records
+2026-10-14 07:47:07,353 - INFO - Equipment Usage Fact           :  236,892 records
+2026-10-14 07:47:07,354 - INFO - Production Fact                :    2,261 records
+2026-10-14 07:47:07,362 - INFO - Financial Transaction Fact     :  115,901 records
+2026-10-14 07:47:07,362 - INFO - ==================================================
+2026-10-14 07:47:07,362 - INFO - ✅ Step 4 completed: Data quality check completed
+2026-10-14 07:47:07,362 - INFO - 🎉 Complete ETL Pipeline Successfully Executed!
+2026-10-14 07:47:07,362 - INFO - 📈 Data Warehouse is now ready for analytics and visualization!
+2026-10-14 07:47:07,362 - INFO - ✅ ETL Pipeline completed successfully!
+2026-10-14 07:47:07,362 - INFO - 🌐 You can now access:
+2026-10-14 07:47:07,362 - INFO -    - Airflow UI: http://localhost:8080
+2026-10-14 07:47:07,362 - INFO -    - Grafana: http://localhost:3000
+2026-10-14 07:47:07,362 - INFO -    - Superset: http://localhost:8088
+2026-10-14 07:47:07,362 - INFO -    - Metabase: http://localhost:3001
+2026-10-14 07:47:07,362 - INFO -    - Jupyter: http://localhost:8888
+docker compose exec -T sqlserver sh -c '/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$MSSQL_SA_PASSWORD" -C -N -b -W -d PTXYZ_DataWarehouse -i /tests/validate.sql'
+Warning: Null value is eliminated by an aggregate or other SET operation.
+seq kategori uji status detail
+--- -------- --- ------ ------
+1 Skema Tabel ada: dim.DimTime PASS 
+2 Skema Tabel ada: dim.DimSite PASS 
+3 Skema Tabel ada: dim.DimEquipment PASS 
+4 Skema Tabel ada: dim.DimMaterial PASS 
+5 Skema Tabel ada: dim.DimEmployee PASS 
+6 Skema Tabel ada: dim.DimShift PASS 
+7 Skema Tabel ada: dim.DimProject PASS 
+8 Skema Tabel ada: dim.DimAccount PASS 
+9 Skema Tabel ada: fact.FactEquipmentUsage PASS 
+10 Skema Tabel ada: fact.FactProduction PASS 
+11 Skema Tabel ada: fact.FactFinancialTransaction PASS 
+12 Skema Tabel ada: staging.EquipmentUsage PASS 
+13 Skema Tabel ada: staging.Production PASS 
+14 Skema Tabel ada: staging.FinancialTransaction PASS 
+15 Skema Kolom & tipe: dim.DimAccount PASS 0 kolom tidak sesuai
+16 Skema Kolom & tipe: dim.DimEmployee PASS 0 kolom tidak sesuai
+17 Skema Kolom & tipe: dim.DimEquipment PASS 0 kolom tidak sesuai
+18 Skema Kolom & tipe: dim.DimMaterial PASS 0 kolom tidak sesuai
+19 Skema Kolom & tipe: dim.DimProject PASS 0 kolom tidak sesuai
+20 Skema Kolom & tipe: dim.DimShift PASS 0 kolom tidak sesuai
+21 Skema Kolom & tipe: dim.DimSite PASS 0 kolom tidak sesuai
+22 Skema Kolom & tipe: dim.DimTime PASS 0 kolom tidak sesuai
+23 Skema Kolom & tipe: fact.FactEquipmentUsage PASS 0 kolom tidak sesuai
+24 Skema Kolom & tipe: fact.FactFinancialTransaction PASS 0 kolom tidak sesuai
+25 Skema Kolom & tipe: fact.FactProduction PASS 0 kolom tidak sesuai
+26 Jumlah baris README: dim.DimTime = 830 PASS aktual = 830
+27 Jumlah baris README: dim.DimSite = 1747 PASS aktual = 1747
+28 Jumlah baris README: dim.DimEquipment = 6 PASS aktual = 6
+29 Jumlah baris README: dim.DimMaterial = 5 PASS aktual = 5
+30 Jumlah baris README: dim.DimEmployee = 10 PASS aktual = 10
+31 Jumlah baris README: dim.DimShift = 3 PASS aktual = 3
+32 Jumlah baris README: dim.DimProject = 50 PASS aktual = 50
+33 Jumlah baris README: dim.DimAccount = 30 PASS aktual = 30
+34 Jumlah baris README: fact.FactEquipmentUsage = 236892 PASS aktual = 236892
+35 Jumlah baris README: fact.FactProduction = 2261 PASS aktual = 2261
+36 Jumlah baris README: fact.FactFinancialTransaction = 115901 PASS aktual = 115901
+37 Integritas Jumlah FK constraint pada tabel fakta = 12 PASS aktual = 12
+38 Integritas Orphan = 0: fact.FactEquipmentUsage.time_key -> dim.DimTime.time_key PASS orphan = 0
+39 Integritas Orphan = 0: fact.FactEquipmentUsage.site_key -> dim.DimSite.site_key PASS orphan = 0
+40 Integritas Orphan = 0: fact.FactEquipmentUsage.equipment_key -> dim.DimEquipment.equipment_key PASS orphan = 0
+41 Integritas Orphan = 0: fact.FactProduction.time_key -> dim.DimTime.time_key PASS orphan = 0
+42 Integritas Orphan = 0: fact.FactProduction.site_key -> dim.DimSite.site_key PASS orphan = 0
+43 Integritas Orphan = 0: fact.FactProduction.material_key -> dim.DimMaterial.material_key PASS orphan = 0
+44 Integritas Orphan = 0: fact.FactProduction.employee_key -> dim.DimEmployee.employee_key PASS orphan = 0
+45 Integritas Orphan = 0: fact.FactProduction.shift_key -> dim.DimShift.shift_key PASS orphan = 0
+46 Integritas Orphan = 0: fact.FactFinancialTransaction.time_key -> dim.DimTime.time_key PASS orphan = 0
+47 Integritas Orphan = 0: fact.FactFinancialTransaction.site_key -> dim.DimSite.site_key PASS orphan = 0
+48 Integritas Orphan = 0: fact.FactFinancialTransaction.project_key -> dim.DimProject.project_key PASS orphan = 0
+49 Integritas Orphan = 0: fact.FactFinancialTransaction.account_key -> dim.DimAccount.account_key PASS orphan = 0
+50 Agregat README: Produksi Metal = 434.721 (date >= anchor) PASS aktual = 434721.00
+51 Agregat README: Produksi Ore = 112.687 (date >= anchor) PASS aktual = 112687.00
+52 Agregat README: baris peralatan 30 hari = 118.446 (date >= anchor) PASS aktual = 118446
+53 Agregat README: efisiensi keseluruhan = 95,66% WARN aktual = 95.60; selisih = 0.06 poin (tidak ada rumus di repo yang menghasilkan 95,66)
+54 Rentang nilai FactEquipmentUsage: jam operasi/downtime/BBM/biaya >= 0 PASS baris melanggar = 0
+55 Rentang nilai FactEquipmentUsage: efficiency_ratio di [0,1] PASS baris melanggar = 0
+56 Rentang nilai FactProduction: volume/unit_cost/quantity >= 0 PASS baris melanggar = 0
+57 Rentang nilai FactFinancialTransaction: budget/actual/cost >= 0 PASS baris melanggar = 0
+58 Duplikasi DimEquipment: equipment_name unik PASS kelebihan baris = 0
+59 Duplikasi DimMaterial: material_id unik PASS kelebihan baris = 0
+60 Duplikasi DimEmployee: employee_id unik PASS kelebihan baris = 0
+61 Duplikasi DimShift: shift_id unik PASS kelebihan baris = 0
+62 Duplikasi DimProject: project_id unik PASS kelebihan baris = 0
+63 Duplikasi DimAccount: account_id unik PASS kelebihan baris = 0
+64 Temuan DQ DimSite: baris vs site_name unik WARN baris = 1747; kunci unik = 26; faktor = 67.2x
+65 Temuan DQ DimTime: baris vs time_id unik WARN baris = 830; kunci unik = 755; faktor = 1.1x
+66 Temuan DQ FactEquipmentUsage: baris vs equipment_usage_id unik WARN baris = 236892; kunci unik = 1150; faktor = 206.0x
+67 Temuan DQ FactProduction: baris vs production_id unik WARN baris = 2261; kunci unik = 1150; faktor = 2.0x
+68 Temuan DQ FactFinancialTransaction: baris vs transaction_id unik WARN baris = 115901; kunci unik = 1150; faktor = 100.8x
+69 Temuan DQ FactFinancialTransaction.variance_status terisi (ETL tidak memuat kolom ini) WARN NULL = 115901 dari 115901 baris
  
-RINGKASAN: PASS=42 WARN=1 FAIL=0
-VALIDASI LULUS
+RINGKASAN: PASS=62  WARN=7  FAIL=0
+docker compose exec -T sqlserver sh -c '/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$MSSQL_SA_PASSWORD" -C -N -b -W -d PTXYZ_DataWarehouse -i /tests/olap.sql' > tests/olap_output.txt 2>&1; rc=$?; cat tests/olap_output.txt; exit $rc
+Parameter otomatis: tahun=2027, region=Sumatera, material_type=Metal
+=== 1. SLICE: produksi tahun terpilih per material_type ===
+material_type total_produksi jumlah_baris
+------------- -------------- ------------
+Metal 156475.00 569
+Ore 41482.00 159
+=== 2. DICE: tahun + region + material_type terpilih, per kuartal dan material ===
+quarter material_name total_produksi total_biaya
+------- ------------- -------------- -----------
+1 Copper 4490.00 1466126.0000
+1 Gold 6814.00 1728436.0000
+1 Iron 2732.00 723002.0000
+1 Nickel 4162.00 1450016.0000
+2 Copper 5430.00 1387128.0000
+2 Gold 4832.00 1493030.0000
+2 Iron 3400.00 929064.0000
+2 Nickel 2930.00 900786.0000
+3 Copper 5374.00 1124592.0000
+3 Gold 5754.00 1575000.0000
+3 Iron 2850.00 837686.0000
+3 Nickel 6716.00 2235076.0000
+4 Copper 3424.00 978330.0000
+4 Gold 2744.00 1145736.0000
+4 Iron 3844.00 1181338.0000
+4 Nickel 1572.00 365158.0000
+=== 3. ROLL-UP: tahun > kuartal > bulan (baris pertama = grand total) ===
+year quarter month level_agregasi total_produksi
+---- ------- ----- -------------- --------------
+NULL NULL NULL 7 596200.00
+2022 NULL NULL 3 48792.00
+2022 1 NULL 1 40094.00
+2022 1 1 0 15640.00
+2022 1 2 0 13987.00
+2022 1 3 0 10467.00
+2022 2 NULL 1 8698.00
+2022 2 4 0 8698.00
+2025 NULL NULL 3 110971.00
+2025 2 NULL 1 31147.00
+2025 2 5 0 15640.00
+2025 2 6 0 15507.00
+2025 3 NULL 1 42847.00
+2025 3 7 0 12613.00
+2025 3 8 0 13649.00
+2025 3 9 0 16585.00
+2025 4 NULL 1 36977.00
+2025 4 10 0 12702.00
+2025 4 11 0 13059.00
+2025 4 12 0 11216.00
+2026 NULL NULL 3 150218.00
+2026 1 NULL 1 30620.00
+2026 1 1 0 12475.00
+2026 1 2 0 10000.00
+2026 1 3 0 8145.00
+2026 2 NULL 1 38430.00
+2026 2 4 0 12482.00
+2026 2 5 0 12424.00
+2026 2 6 0 13524.00
+2026 3 NULL 1 43157.00
+2026 3 7 0 13698.00
+2026 3 8 0 13393.00
+2026 3 9 0 16066.00
+2026 4 NULL 1 38011.00
+2026 4 10 0 13777.00
+2026 4 11 0 14020.00
+2026 4 12 0 10214.00
+2027 NULL NULL 3 197957.00
+2027 1 NULL 1 52307.00
+2027 1 1 0 17422.00
+2027 1 2 0 17874.00
+2027 1 3 0 17011.00
+2027 2 NULL 1 46610.00
+2027 2 4 0 14429.00
+2027 2 5 0 19436.00
+2027 2 6 0 12745.00
+2027 3 NULL 1 57243.00
+2027 3 7 0 24295.00
+2027 3 8 0 16167.00
+2027 3 9 0 16781.00
+2027 4 NULL 1 41797.00
+2027 4 10 0 13721.00
+2027 4 11 0 13091.00
+2027 4 12 0 14985.00
+2028 NULL NULL 3 88262.00
+2028 1 NULL 1 49291.00
+2028 1 1 0 15742.00
+2028 1 2 0 17300.00
+2028 1 3 0 16249.00
+2028 2 NULL 1 38971.00
+2028 2 4 0 12152.00
+2028 2 5 0 13468.00
+2028 2 6 0 13351.00
+=== 4a. DRILL-DOWN level 1: produksi per region (tahun terpilih) ===
+region total_produksi
+------ --------------
+Sumatera 90306.00
+Kalimantan 86472.00
+Papua 21179.00
+=== 4b. DRILL-DOWN level 2: site dalam region terpilih ===
+region site_name total_produksi
+------ --------- --------------
+Sumatera Quarry A 90306.00
+=== 4c. DRILL-DOWN level 3: material per site dalam region terpilih ===
+site_name material_name total_produksi
+--------- ------------- --------------
+Quarry A Coal 23238.00
+Quarry A Gold 20144.00
+Quarry A Copper 18718.00
+Quarry A Nickel 15380.00
+Quarry A Iron 12826.00
+=== 5. PIVOT (dinamis): produksi per bulan x material_name, tahun terpilih ===
+month month_name Coal Copper Gold Iron Nickel
+----- ---------- ---- ------ ---- ---- ------
+1 January 6750.00 4240.00 2079.00 824.00 3529.00
+2 February 2586.00 4443.00 5145.00 2812.00 2888.00
+3 March 3473.00 3405.00 4102.00 3194.00 2837.00
+4 April 3536.00 4288.00 892.00 2523.00 3190.00
+5 May 6054.00 2064.00 5608.00 2690.00 3020.00
+6 June 2382.00 514.00 4335.00 2749.00 2765.00
+7 July 4450.00 5512.00 4952.00 2652.00 6729.00
+8 August 1619.00 5020.00 3234.00 1328.00 4966.00
+9 September 1786.00 2752.00 5345.00 3720.00 3178.00
+10 October 2559.00 2658.00 4342.00 3267.00 895.00
+11 November 2524.00 3471.00 2290.00 3012.00 1794.00
+12 December 3763.00 3045.00 2841.00 1146.00 4190.00
+=== 6. DRILL-ACROSS tanpa fan-out: produksi, alat, keuangan per bulan ===
+Bagian 6 memakai tahun irisan ketiga fakta: 2025
+month produksi biaya_produksi jam_operasi jam_downtime rata_efisiensi anggaran realisasi
+----- -------- -------------- ----------- ------------ -------------- -------- ---------
+5 15640.00 5001594.0000 36293213.00 1672385.00 .956029379935 2107791476.00 2307600075.00
+6 15507.00 4686573.0000 NULL NULL NULL 1354139572.00 1357711597.00
+7 12613.00 3536189.0000 NULL NULL NULL 1233683700.00 1260493814.00
+8 13649.00 3896164.0000 NULL NULL NULL 421099763.00 519958547.00
+9 16585.00 4851644.0000 NULL NULL NULL NULL NULL
+10 12702.00 3433852.0000 NULL NULL NULL NULL NULL
+11 13059.00 3953211.0000 NULL NULL NULL NULL NULL
+12 11216.00 3409217.0000 NULL NULL NULL NULL NULL
+=== 7. COVERAGE: cakupan data per tahun untuk tiga tabel fakta ===
+year produksi jam_operasi realisasi_biaya
+---- -------- ----------- ---------------
+2022 48792.00 36293213.00 7399407166.00
+2025 110971.00 36293213.00 5445764033.00
+2026 150218.00 NULL NULL
+2027 197957.00 NULL NULL
+2028 88262.00 NULL NULL
+=== 8. PEMBANDING README: produksi per material_type, tahun >= 2025 (README: Metal 434.721, Ore 112.687) ===
+material_type total_produksi
+------------- --------------
+Metal 434721.00
+Ore 112687.00
+=== SELF-TEST: grand total ROLLUP = total langsung ===
+status total_langsung total_via_dimensi
+------ -------------- -----------------
+PASS 596200.00 596200.00

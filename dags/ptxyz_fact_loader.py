@@ -271,4 +271,9 @@ completion_task = BashOperator(
 )
 
 # Set task dependencies
+wait_for_dimensions >> [
+    load_equipment_fact_task,
+    load_production_fact_task,
+    load_financial_fact_task,
+]
 [load_equipment_fact_task, load_production_fact_task, load_financial_fact_task] >> validate_facts_task >> completion_task

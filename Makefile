@@ -1,100 +1,78 @@
-.PHONY: help build up down restart logs clean backup restore
+# PT XYZ Data Warehouse - orkestrasi satu perintah:  make all
+SHELL   := /bin/bash
+DB      ?= PTXYZ_DataWarehouse
+NETWORK ?= ptxyz-dw_dw_network
+UID_GID := $(shell id -u):$(shell id -g)
 
-# Default target
+# sqlcmd di dalam container sqlserver; password dibaca dari env container (berasal dari .env)
+SQLCMD = docker compose exec -T sqlserver sh -c '/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$MSSQL_SA_PASSWORD" -C -N -b -W -d $(DB) $(1)'
+
+.PHONY: help setup build up wait etl validate all down restart logs logs-sql logs-airflow status shell-sql backup clean
+
 help:
-	@echo "PT XYZ Data Warehouse Docker Management"
-	@echo "======================================"
-	@echo "Available commands:"
-	@echo "  make build      - Build all Docker images"
-	@echo "  make up         - Start all services"
-	@echo "  make down       - Stop all services"
-	@echo "  make restart    - Restart all services"
-	@echo "  make logs       - View all logs"
-	@echo "  make clean      - Stop and remove all containers and volumes"
-	@echo "  make backup     - Backup SQL Server data"
-	@echo "  make restore    - Restore SQL Server data"
-	@echo "  make status     - Show service status"
-	@echo ""
-	@echo "Individual services:"
-	@echo "  make logs-sql   - View SQL Server logs"
-	@echo "  make logs-airflow - View Airflow logs"
-	@echo "  make shell-sql  - Connect to SQL Server"
+	@echo "PT XYZ Data Warehouse"
+	@echo "  make all        - dari nol: setup, up, wait, etl, validate"
+	@echo "  make setup      - patch orkestrasi + buat .env (idempotent)"
+	@echo "  make up         - jalankan semua layanan (docker compose up -d)"
+	@echo "  make wait       - tunggu database & skema siap"
+	@echo "  make etl        - jalankan standalone_etl.py di container Python"
+	@echo "  make validate   - jalankan tests/validate.sql (skema, FK, agregat)"
+	@echo "  make down       - hentikan layanan (data tetap)"
+	@echo "  make clean      - hentikan + HAPUS volume data proyek ini (tanpa docker system prune)"
+	@echo "  make status | logs | logs-sql | logs-airflow | shell-sql | backup"
 
-# Build all services
-build:
-	@echo "Building PT XYZ Data Warehouse services..."
+setup:
+	@python3 scripts/apply_patches.py
+
+build: setup
 	docker compose build
 
-# Start all services
-up:
-	@echo "Starting PT XYZ Data Warehouse services..."
+up: setup
 	docker compose up -d
-	@echo "Services started. Access points:"
-	@echo "- SQL Server: localhost:1433"
-	@echo "- Airflow: http://localhost:8080"
-	@echo "- Jupyter: http://localhost:8888"
-	@echo "- Grafana: http://localhost:3000"
-	@echo "- Superset: http://localhost:8088"
-	@echo "- Metabase: http://localhost:3001"
+	@echo "Layanan: SQL Server :1433 | Airflow :8080 | Grafana :3000 | Superset :8088 | Metabase :3001 | Jupyter :8888"
 
-# Stop all services
+wait:
+	@bash scripts/wait_for_init.sh 900
+
+etl:
+	docker run --rm --network $(NETWORK) -v "$(CURDIR)":/work -w /work -e MSSQL_HOST=sqlserver python:3.12-slim \
+	  sh -c "pip install -q --no-cache-dir pandas pymssql && python standalone_etl.py; rc=\$$?; chown $(UID_GID) etl_execution.log 2>/dev/null; exit \$$rc"
+
+validate:
+	$(call SQLCMD,-i /tests/validate.sql)
+
+all: up wait etl validate olap
+
 down:
-	@echo "Stopping PT XYZ Data Warehouse services..."
 	docker compose down
 
-# Restart all services
 restart:
-	@echo "Restarting PT XYZ Data Warehouse services..."
 	docker compose restart
 
-# View all logs
 logs:
 	docker compose logs -f
 
-# View SQL Server logs
 logs-sql:
 	docker compose logs -f sqlserver
 
-# View Airflow logs
 logs-airflow:
 	docker compose logs -f airflow-webserver airflow-scheduler airflow-worker
 
-# Show service status
 status:
 	docker compose ps
 
-# Clean everything (CAREFUL: This removes all data!)
-clean:
-	@echo "WARNING: This will remove all containers and data volumes!"
-	@read -p "Are you sure? (y/N): " confirm && [ "$$confirm" = "y" ]
-	docker compose down -v
-	docker system prune -f
-
-# Backup SQL Server data
-backup:
-	@echo "Creating backup of SQL Server data..."
-	docker run --rm \
-		-v ptxyz-dw_sqlserver_data:/data \
-		-v $(PWD)/backups:/backup \
-		alpine sh -c "mkdir -p /backup && tar czf /backup/sqlserver_backup_$(shell date +%Y%m%d_%H%M%S).tar.gz /data"
-	@echo "Backup completed in ./backups/"
-
-# Create backups directory if it doesn't exist
-backups:
-	mkdir -p backups
-
-# Initialize development environment
-init-dev: backups
-	@echo "Initializing development environment..."
-	mkdir -p logs plugins
-	sudo chown -R 50000:0 logs plugins
-	@echo "Development environment ready!"
-
-# Connect to SQL Server shell
 shell-sql:
-	docker compose exec sqlserver /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P PTXYZDataWarehouse2025!
+	docker compose exec sqlserver sh -c '/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$MSSQL_SA_PASSWORD" -C -N -d $(DB)'
 
-# Monitor services
-monitor:
-	@echo "Monitoring PT XYZ Data Warehouse services..."
-	watch docker compose ps
+backup:
+	mkdir -p backups
+	docker run --rm -v ptxyz-dw_sqlserver_data:/data -v "$(CURDIR)/backups":/backup alpine \
+	  sh -c "tar czf /backup/sqlserver_backup_$$(date +%Y%m%d_%H%M%S).tar.gz /data"
+
+# Hanya menghapus container + volume milik proyek ini. Sengaja TIDAK memakai 'docker system prune'.
+clean:
+	docker compose down -v --remove-orphans
+
+.PHONY: olap
+olap:
+	docker compose exec -T sqlserver sh -c '/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$MSSQL_SA_PASSWORD" -C -N -b -W -d PTXYZ_DataWarehouse -i /tests/olap.sql' > tests/olap_output.txt 2>&1; rc=$$?; cat tests/olap_output.txt; exit $$rc
