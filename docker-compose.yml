@@ -270,7 +270,7 @@ services:
 
   # PostgreSQL for Metabase
   postgres_metabase:
-    image: postgres:13
+    image: postgres:16
     container_name: ptxyz_postgres_metabase
     environment:
       - POSTGRES_DB=metabase
