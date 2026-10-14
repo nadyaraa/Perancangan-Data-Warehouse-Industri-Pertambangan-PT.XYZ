@@ -1,4 +1,5 @@
 #!/bin/bash
+if [ -f .env ]; then set -a; . ./.env; set +a; fi  # scrub-env: kredensial dari .env
 # PT XYZ Dashboard Configuration Automation Script
 
 echo "🚀 PT XYZ Dashboard Configuration Automation"
@@ -37,7 +38,7 @@ echo -e "${BLUE}🔧 Testing database queries...${NC}"
 # Test basic connectivity
 echo -e "${YELLOW}Testing SQL Server connection...${NC}"
 docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
-    -S localhost -U sa -P 'PTXYZSecure123!' \
+    -S localhost -U sa -P "$MSSQL_SA_PASSWORD" \
     -d PTXYZ_DataWarehouse \
     -Q "SELECT 'Connection successful' as Status;" \
     -C -N
@@ -55,7 +56,7 @@ echo -e "${YELLOW}Testing corrected dashboard queries...${NC}"
 
 echo "📊 Equipment Utilization Query..."
 docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
-    -S localhost -U sa -P 'PTXYZSecure123!' \
+    -S localhost -U sa -P "$MSSQL_SA_PASSWORD" \
     -d PTXYZ_DataWarehouse \
     -Q "
     SELECT TOP 3
@@ -75,7 +76,7 @@ docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
 echo ""
 echo "📈 Production Performance Query..."
 docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
-    -S localhost -U sa -P 'PTXYZSecure123!' \
+    -S localhost -U sa -P "$MSSQL_SA_PASSWORD" \
     -d PTXYZ_DataWarehouse \
     -Q "
     SELECT TOP 3
@@ -94,7 +95,7 @@ docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
 echo ""
 echo "💰 Financial Analysis Query..."
 docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
-    -S localhost -U sa -P 'PTXYZSecure123!' \
+    -S localhost -U sa -P "$MSSQL_SA_PASSWORD" \
     -d PTXYZ_DataWarehouse \
     -Q "
     SELECT TOP 3
@@ -124,14 +125,14 @@ echo "   - Add SQL Server data source:"
 echo "     • Host: sqlserver:1433"
 echo "     • Database: PTXYZ_DataWarehouse"
 echo "     • User: sa"
-echo "     • Password: PTXYZSecure123!"
+echo "     • Password: <MSSQL_SA_PASSWORD>"
 echo "   - Create panels using corrected queries"
 echo ""
 
 echo -e "${YELLOW}2. Superset Setup (http://localhost:8088):${NC}"
 echo "   - Login: admin/admin"
 echo "   - Add database connection:"
-echo "     • SQLAlchemy URI: mssql+pymssql://sa:PTXYZSecure123!@sqlserver:1433/PTXYZ_DataWarehouse"
+echo "     • SQLAlchemy URI: mssql+pymssql://sa:<MSSQL_SA_PASSWORD>@sqlserver:1433/PTXYZ_DataWarehouse"
 echo "   - Create datasets from fact and dimension tables"
 echo "   - Build charts using provided queries"
 echo ""
@@ -143,7 +144,7 @@ echo "     • Host: sqlserver"
 echo "     • Port: 1433"
 echo "     • Database: PTXYZ_DataWarehouse"
 echo "     • Username: sa"
-echo "     • Password: PTXYZSecure123!"
+echo "     • Password: <MSSQL_SA_PASSWORD>"
 echo ""
 
 echo -e "${YELLOW}4. Jupyter Analysis (http://localhost:8888):${NC}"

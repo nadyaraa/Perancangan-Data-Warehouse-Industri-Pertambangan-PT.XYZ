@@ -1,0 +1,39 @@
+# Makefile orkestrasi (wrapper) - tidak mengubah skema/logika ETL README.
+# Pakai: make -f Makefile.validasi all     atau salin targetnya ke Makefile repo.
+# Kredensial dibaca dari .env (jangan di-commit); password dipakai dari env container.
+
+-include .env
+export
+
+SQLSERVER_SVC ?= sqlserver
+MSSQL_DB      ?= PTXYZ_DataWarehouse
+SQLCMD = docker compose exec -T $(SQLSERVER_SVC) sh -c '/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$MSSQL_SA_PASSWORD" -C -N -b -W -d $(MSSQL_DB)'
+
+.PHONY: all up wait etl validate schema-baseline test-schema down
+
+all: up wait etl test-schema validate
+
+up:
+	docker compose up -d
+
+wait:
+	@bash tests/wait_ready.sh
+
+etl:
+	python standalone_etl.py 2>&1 | tee tests/etl.log
+	@! grep -qE "ETL Pipeline failed|Traceback" tests/etl.log || { echo "ETL GAGAL - lihat tests/etl.log"; exit 1; }
+
+validate:
+	$(SQLCMD) < tests/validate.sql
+
+# Simpan skema hasil build awal (dari init-scripts asli) sebagai pembanding nama/kolom/tipe.
+schema-baseline:
+	docker compose exec -T $(SQLSERVER_SVC) sh -c '/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$MSSQL_SA_PASSWORD" -C -N -W -h -1 -s "|" -d $(MSSQL_DB) -Q "SET NOCOUNT ON; SELECT TABLE_SCHEMA,TABLE_NAME,COLUMN_NAME,DATA_TYPE,ISNULL(CAST(CHARACTER_MAXIMUM_LENGTH AS VARCHAR(10)),\"\"),ISNULL(CAST(NUMERIC_PRECISION AS VARCHAR(10)),\"\"),ISNULL(CAST(NUMERIC_SCALE AS VARCHAR(10)),\"\"),IS_NULLABLE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA IN (\"dim\",\"fact\") ORDER BY TABLE_SCHEMA,TABLE_NAME,ORDINAL_POSITION"' > tests/expected_schema.txt
+	@wc -l tests/expected_schema.txt
+
+test-schema:
+	@docker compose exec -T $(SQLSERVER_SVC) sh -c '/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$$MSSQL_SA_PASSWORD" -C -N -W -h -1 -s "|" -d $(MSSQL_DB) -Q "SET NOCOUNT ON; SELECT TABLE_SCHEMA,TABLE_NAME,COLUMN_NAME,DATA_TYPE,ISNULL(CAST(CHARACTER_MAXIMUM_LENGTH AS VARCHAR(10)),\"\"),ISNULL(CAST(NUMERIC_PRECISION AS VARCHAR(10)),\"\"),ISNULL(CAST(NUMERIC_SCALE AS VARCHAR(10)),\"\"),IS_NULLABLE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA IN (\"dim\",\"fact\") ORDER BY TABLE_SCHEMA,TABLE_NAME,ORDINAL_POSITION"' > /tmp/actual_schema.txt
+	@diff -u tests/expected_schema.txt /tmp/actual_schema.txt && echo "SKEMA: PASS (sama dengan baseline)"
+
+down:
+	docker compose down

@@ -1,4 +1,5 @@
 #!/bin/bash
+if [ -f .env ]; then set -a; . ./.env; set +a; fi  # scrub-env: kredensial dari .env
 # Test Corrected Dashboard Queries Script
 
 echo "🔍 Testing PT XYZ Dashboard Queries (Schema-Aligned)"
@@ -8,11 +9,11 @@ echo "================================================="
 SERVER="localhost,1433"
 DATABASE="PTXYZ_DataWarehouse"
 USERNAME="sa"
-PASSWORD="PTXYZSecure123!"
+PASSWORD="$MSSQL_SA_PASSWORD"
 
 echo "📊 Testing Equipment Utilization Query..."
 docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
-    -S localhost -U sa -P 'PTXYZSecure123!' \
+    -S localhost -U sa -P "$MSSQL_SA_PASSWORD" \
     -d PTXYZ_DataWarehouse \
     -Q "
     SELECT TOP 5
@@ -36,7 +37,7 @@ docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
 echo ""
 echo "📈 Testing Production Performance Query..."
 docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
-    -S localhost -U sa -P 'PTXYZSecure123!' \
+    -S localhost -U sa -P "$MSSQL_SA_PASSWORD" \
     -d PTXYZ_DataWarehouse \
     -Q "
     SELECT TOP 5
@@ -59,7 +60,7 @@ docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
 echo ""
 echo "💰 Testing Financial Analysis Query..."
 docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
-    -S localhost -U sa -P 'PTXYZSecure123!' \
+    -S localhost -U sa -P "$MSSQL_SA_PASSWORD" \
     -d PTXYZ_DataWarehouse \
     -Q "
     SELECT TOP 5
@@ -84,7 +85,7 @@ docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
 echo ""
 echo "🔍 Testing Table Row Counts..."
 docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
-    -S localhost -U sa -P 'PTXYZSecure123!' \
+    -S localhost -U sa -P "$MSSQL_SA_PASSWORD" \
     -d PTXYZ_DataWarehouse \
     -Q "
     SELECT 'FactEquipmentUsage' as TableName, COUNT(*) as RowCount FROM fact.FactEquipmentUsage

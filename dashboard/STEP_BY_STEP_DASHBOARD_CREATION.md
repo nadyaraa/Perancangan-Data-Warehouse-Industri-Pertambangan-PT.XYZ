@@ -20,7 +20,7 @@ curl http://localhost:8888  # Jupyter
 
 # 3. Test database connection
 docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
-    -S localhost -U sa -P 'PTXYZSecure123!' \
+    -S localhost -U sa -P "$MSSQL_SA_PASSWORD" \
     -d PTXYZ_DataWarehouse \
     -Q "SELECT COUNT(*) FROM fact.FactEquipmentUsage;" \
     -C -N
@@ -41,7 +41,7 @@ docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
 3. Select **Microsoft SQL Server**
 4. Enter SQLAlchemy URI:
 ```
-mssql+pymssql://sa:PTXYZSecure123!@sqlserver:1433/PTXYZ_DataWarehouse
+mssql+pymssql://sa:<MSSQL_SA_PASSWORD>@sqlserver:1433/PTXYZ_DataWarehouse
 ```
 5. Click **TEST CONNECTION** → should show "Connection looks good!"
 6. Click **CONNECT**
@@ -166,7 +166,7 @@ ORDER BY total_maintenance DESC
 Host: sqlserver:1433
 Database: PTXYZ_DataWarehouse
 User: sa
-Password: PTXYZSecure123!
+Password: <MSSQL_SA_PASSWORD>
 ```
 5. Click **Save & Test** → should show "Database Connection OK"
 
@@ -255,7 +255,7 @@ Host: sqlserver
 Port: 1433
 Database name: PTXYZ_DataWarehouse
 Username: sa
-Password: PTXYZSecure123!
+Password: <MSSQL_SA_PASSWORD>
 ```
 4. Click **Save**
 
@@ -308,7 +308,7 @@ conn = pymssql.connect(
     port=1433,
     database='PTXYZ_DataWarehouse',
     user='sa',
-    password='PTXYZSecure123!'
+    password=os.environ['MSSQL_SA_PASSWORD']
 )
 
 # Equipment efficiency analysis
@@ -481,7 +481,7 @@ ORDER BY t.year, t.quarter, ABS(SUM(f.budgeted_cost - f.actual_cost)) DESC
 ```bash
 # Test SQL Server connectivity
 docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
-    -S localhost -U sa -P 'PTXYZSecure123!' \
+    -S localhost -U sa -P "$MSSQL_SA_PASSWORD" \
     -Q "SELECT 1" -C -N
 
 # Restart services if needed

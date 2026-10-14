@@ -1,4 +1,5 @@
 #!/bin/bash
+if [ -f .env ]; then set -a; . ./.env; set +a; fi  # scrub-env: kredensial dari .env
 # Final Dashboard Verification Script - All Corrected Queries
 
 echo "🎯 PT XYZ Data Warehouse - Final Dashboard Verification"
@@ -17,7 +18,7 @@ echo -e "${BLUE}🔍 Testing All Corrected Dashboard Queries...${NC}"
 echo ""
 echo -e "${YELLOW}1. Equipment Efficiency KPI Query...${NC}"
 docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
-    -S localhost -U sa -P 'PTXYZSecure123!' \
+    -S localhost -U sa -P "$MSSQL_SA_PASSWORD" \
     -d PTXYZ_DataWarehouse \
     -Q "SELECT AVG(CAST(efficiency_ratio AS FLOAT)) * 100 as efficiency_pct FROM fact.FactEquipmentUsage;" \
     -C -N
@@ -25,7 +26,7 @@ docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
 echo ""
 echo -e "${YELLOW}2. Production by Site Query...${NC}"
 docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
-    -S localhost -U sa -P 'PTXYZSecure123!' \
+    -S localhost -U sa -P "$MSSQL_SA_PASSWORD" \
     -d PTXYZ_DataWarehouse \
     -Q "
     SELECT TOP 5
@@ -41,7 +42,7 @@ docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
 echo ""
 echo -e "${YELLOW}3. Equipment Utilization by Type Query...${NC}"
 docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
-    -S localhost -U sa -P 'PTXYZSecure123!' \
+    -S localhost -U sa -P "$MSSQL_SA_PASSWORD" \
     -d PTXYZ_DataWarehouse \
     -Q "
     SELECT 
@@ -58,7 +59,7 @@ docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
 echo ""
 echo -e "${YELLOW}4. Budget vs Actual Analysis Query...${NC}"
 docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
-    -S localhost -U sa -P 'PTXYZSecure123!' \
+    -S localhost -U sa -P "$MSSQL_SA_PASSWORD" \
     -d PTXYZ_DataWarehouse \
     -Q "
     SELECT TOP 5
@@ -76,7 +77,7 @@ docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
 echo ""
 echo -e "${YELLOW}5. Maintenance Cost by Equipment Type Query...${NC}"
 docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
-    -S localhost -U sa -P 'PTXYZSecure123!' \
+    -S localhost -U sa -P "$MSSQL_SA_PASSWORD" \
     -d PTXYZ_DataWarehouse \
     -Q "
     SELECT 
@@ -93,7 +94,7 @@ docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
 echo ""
 echo -e "${YELLOW}6. Production by Material Type Query...${NC}"
 docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
-    -S localhost -U sa -P 'PTXYZSecure123!' \
+    -S localhost -U sa -P "$MSSQL_SA_PASSWORD" \
     -d PTXYZ_DataWarehouse \
     -Q "
     SELECT 
@@ -110,7 +111,7 @@ docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
 echo ""
 echo -e "${YELLOW}7. Regional Performance Summary Query...${NC}"
 docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd \
-    -S localhost -U sa -P 'PTXYZSecure123!' \
+    -S localhost -U sa -P "$MSSQL_SA_PASSWORD" \
     -d PTXYZ_DataWarehouse \
     -Q "
     SELECT 
@@ -171,14 +172,14 @@ echo ""
 echo -e "${YELLOW}Superset (Business Intelligence):${NC}"
 echo "1. Go to http://localhost:8088"
 echo "2. Login: admin/admin"
-echo "3. Add database: mssql+pymssql://sa:PTXYZSecure123!@sqlserver:1433/PTXYZ_DataWarehouse"
+echo "3. Add database: mssql+pymssql://sa:<MSSQL_SA_PASSWORD>@sqlserver:1433/PTXYZ_DataWarehouse"
 echo "4. Create datasets and charts using verified queries"
 echo ""
 
 echo -e "${YELLOW}Metabase (Self-Service Analytics):${NC}"
 echo "1. Go to http://localhost:3001"
 echo "2. Complete setup wizard"
-echo "3. Add SQL Server: sqlserver:1433, PTXYZ_DataWarehouse, sa/PTXYZSecure123!"
+echo "3. Add SQL Server: sqlserver:1433, PTXYZ_DataWarehouse, sa/<MSSQL_SA_PASSWORD>"
 echo "4. Let Metabase auto-discover tables"
 echo ""
 

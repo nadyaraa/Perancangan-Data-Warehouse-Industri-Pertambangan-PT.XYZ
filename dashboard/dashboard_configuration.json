@@ -172,19 +172,19 @@
   },
   "connection_strings": {
     "sql_server": {
-      "superset": "mssql+pymssql://sa:PTXYZSecure123!@sqlserver:1433/PTXYZ_DataWarehouse",
+      "superset": "mssql+pymssql://sa:<MSSQL_SA_PASSWORD>@sqlserver:1433/PTXYZ_DataWarehouse",
       "grafana": {
         "host": "sqlserver:1433",
         "database": "PTXYZ_DataWarehouse",
         "user": "sa",
-        "password": "PTXYZSecure123!"
+        "password": "<MSSQL_SA_PASSWORD>"
       },
       "metabase": {
         "host": "sqlserver",
         "port": 1433,
         "database": "PTXYZ_DataWarehouse",
         "username": "sa",
-        "password": "PTXYZSecure123!"
+        "password": "<MSSQL_SA_PASSWORD>"
       }
     }
   },
@@ -194,7 +194,7 @@
       "2. Login with admin/admin",
       "3. Go to Settings > Database Connections",
       "4. Add Microsoft SQL Server database",
-      "5. Use SQLAlchemy URI: mssql+pymssql://sa:PTXYZSecure123!@sqlserver:1433/PTXYZ_DataWarehouse",
+      "5. Use SQLAlchemy URI: mssql+pymssql://sa:<MSSQL_SA_PASSWORD>@sqlserver:1433/PTXYZ_DataWarehouse",
       "6. Test connection and save",
       "7. Create datasets from fact and dimension tables",
       "8. Build charts using the provided SQL queries"
@@ -204,7 +204,7 @@
       "2. Login with admin/admin",
       "3. Go to Configuration > Data Sources",
       "4. Add Microsoft SQL Server",
-      "5. Configure connection: sqlserver:1433, PTXYZ_DataWarehouse, sa/PTXYZSecure123!",
+      "5. Configure connection: sqlserver:1433, PTXYZ_DataWarehouse, sa/<MSSQL_SA_PASSWORD>",
       "6. Test connection and save",
       "7. Create dashboard panels using provided queries",
       "8. Use $__timeFilter() for time range filtering"
@@ -214,7 +214,7 @@
       "2. Complete initial setup wizard",
       "3. Add SQL Server database",
       "4. Host: sqlserver, Port: 1433, Database: PTXYZ_DataWarehouse",
-      "5. Username: sa, Password: PTXYZSecure123!",
+      "5. Username: sa, Password: <MSSQL_SA_PASSWORD>",
       "6. Let Metabase auto-scan tables",
       "7. Create questions and dashboards from discovered tables"
     ]

@@ -11,6 +11,17 @@ import logging
 import time
 import os
 
+def _load_dotenv(path='.env'):
+    """Baca .env (KEY=VALUE) ke os.environ tanpa menimpa variabel yang sudah ada."""
+    if os.path.exists(path):
+        for line in open(path, encoding='utf-8'):
+            line = line.strip()
+            if line and not line.startswith('#') and '=' in line:
+                k, v = line.split('=', 1)
+                os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+
+_load_dotenv()
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -29,7 +40,7 @@ def get_sql_connection():
             port=1433,
             database='PTXYZ_DataWarehouse',
             user='sa',
-            password='PTXYZSecure123!',
+            password=os.environ['MSSQL_SA_PASSWORD'],
             timeout=30
         )
         return conn

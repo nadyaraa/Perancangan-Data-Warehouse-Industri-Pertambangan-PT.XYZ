@@ -1,4 +1,5 @@
 #!/bin/bash
+if [ -f .env ]; then set -a; . ./.env; set +a; fi  # scrub-env: kredensial dari .env
 
 # PT XYZ Dashboard Verification and Performance Testing
 # ===================================================
@@ -17,7 +18,7 @@ NC='\033[0m' # No Color
 echo -e "\n${BLUE}📊 Testing Database Connectivity${NC}"
 echo "=================================="
 
-sqlcmd -S sqlserver -U sa -P PTXYZSecure123! -d PTXYZ_DataWarehouse -Q "SELECT 'Database connection successful' as Status;" 2>/dev/null
+sqlcmd -S sqlserver -U sa -P "$MSSQL_SA_PASSWORD" -d PTXYZ_DataWarehouse -Q "SELECT 'Database connection successful' as Status;" 2>/dev/null
 
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}✅ SQL Server connection successful${NC}"
@@ -46,7 +47,7 @@ echo "============================"
 
 echo "📊 Equipment Utilization Query Performance..."
 start_time=$(date +%s%N)
-sqlcmd -S sqlserver -U sa -P PTXYZSecure123! -d PTXYZ_DataWarehouse -Q "
+sqlcmd -S sqlserver -U sa -P "$MSSQL_SA_PASSWORD" -d PTXYZ_DataWarehouse -Q "
 SELECT TOP 5
     e.equipment_type,
     s.site_name,
@@ -65,7 +66,7 @@ echo -e "${GREEN}✅ Equipment query executed in ${execution_time}ms${NC}"
 
 echo "📈 Production Performance Query Performance..."
 start_time=$(date +%s%N)
-sqlcmd -S sqlserver -U sa -P PTXYZSecure123! -d PTXYZ_DataWarehouse -Q "
+sqlcmd -S sqlserver -U sa -P "$MSSQL_SA_PASSWORD" -d PTXYZ_DataWarehouse -Q "
 SELECT TOP 5
     s.site_name,
     m.material_type,
@@ -83,7 +84,7 @@ echo -e "${GREEN}✅ Production query executed in ${execution_time}ms${NC}"
 
 echo "💰 Financial Analysis Query Performance..."
 start_time=$(date +%s%N)
-sqlcmd -S sqlserver -U sa -P PTXYZSecure123! -d PTXYZ_DataWarehouse -Q "
+sqlcmd -S sqlserver -U sa -P "$MSSQL_SA_PASSWORD" -d PTXYZ_DataWarehouse -Q "
 SELECT TOP 5
     s.site_name,
     p.project_name,
@@ -204,7 +205,7 @@ PT XYZ Data Warehouse Dashboard Access URLs
    Server: sqlserver:1433
    Database: PTXYZ_DataWarehouse
    Username: sa
-   Password: PTXYZSecure123!
+   Password: <MSSQL_SA_PASSWORD>
 
 📋 Quick Start:
    1. Open dashboard URL in browser

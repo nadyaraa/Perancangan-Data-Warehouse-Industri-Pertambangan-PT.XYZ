@@ -38,12 +38,13 @@ fi
 # Create .env file if it doesn't exist
 if [[ ! -f "${ENV_FILE}" ]]; then
     echo -e "${YELLOW}📝 Creating environment configuration...${NC}"
+    GEN_SA_PASSWORD="${MSSQL_SA_PASSWORD:-Pw$(openssl rand -hex 8)aA1}"
     cat > "${ENV_FILE}" << EOF
 # PT XYZ Data Warehouse Environment Configuration
 # Generated: $(date)
 
 # SQL Server Configuration
-MSSQL_SA_PASSWORD=PTXYZSecure123!
+MSSQL_SA_PASSWORD=${GEN_SA_PASSWORD}
 MSSQL_PID=Express
 
 # PostgreSQL Configuration (for Airflow)
@@ -124,7 +125,7 @@ echo -e "${CYAN}🔍 Checking SQL Server health...${NC}"
 max_attempts=12
 attempt=1
 while [ $attempt -le $max_attempts ]; do
-    if docker compose exec -T sqlserver /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'PTXYZSecure123!' -Q "SELECT 1" -C -N >/dev/null 2>&1; then
+    if docker compose exec -T sqlserver sh -c '/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$MSSQL_SA_PASSWORD" -Q "SELECT 1" -C -N' >/dev/null 2>&1; then
         echo -e "${GREEN}✅ SQL Server is ready${NC}"
         break
     fi

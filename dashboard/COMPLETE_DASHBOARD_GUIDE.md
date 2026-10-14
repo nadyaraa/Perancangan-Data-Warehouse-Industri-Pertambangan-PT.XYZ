@@ -112,7 +112,7 @@ ORDER BY total_variance DESC;
 Host: sqlserver:1433
 Database: PTXYZ_DataWarehouse
 User: sa  
-Password: PTXYZSecure123!
+Password: <MSSQL_SA_PASSWORD>
 ```
 
 ### **Step 2: Create Dashboard Panels**
@@ -165,7 +165,7 @@ WHERE t.year = YEAR(GETDATE())
 4. Choose **Microsoft SQL Server**
 5. SQLAlchemy URI:
 ```
-mssql+pymssql://sa:PTXYZSecure123!@sqlserver:1433/PTXYZ_DataWarehouse
+mssql+pymssql://sa:<MSSQL_SA_PASSWORD>@sqlserver:1433/PTXYZ_DataWarehouse
 ```
 
 ### **Step 2: Create Datasets**
@@ -212,7 +212,7 @@ Host: sqlserver
 Port: 1433
 Database: PTXYZ_DataWarehouse
 Username: sa
-Password: PTXYZSecure123!
+Password: <MSSQL_SA_PASSWORD>
 ```
 
 ### **Step 2: Auto-Generated Dashboards**
@@ -318,7 +318,7 @@ WHERE f.time_key IN (SELECT time_key FROM CurrentMonth);
 #### **Connection Issues:**
 ```bash
 # Check SQL Server status
-docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'PTXYZSecure123!' -Q "SELECT 1" -C -N
+docker exec -it ptxyz_sqlserver /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$MSSQL_SA_PASSWORD" -Q "SELECT 1" -C -N
 
 # Restart services if needed
 docker compose restart sqlserver

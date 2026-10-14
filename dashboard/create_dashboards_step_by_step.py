@@ -66,7 +66,7 @@ class DashboardCreationGuide:
         print("  - Host: sqlserver:1433")
         print("  - Database: PTXYZ_DataWarehouse")
         print("  - User: sa")
-        print("  - Password: PTXYZSecure123!")
+        print("  - Password: <MSSQL_SA_PASSWORD>")
         print("  - Encrypt: false")
         print("• Click 'Save & Test'")
         self.wait_for_user("Complete data source setup and press Enter")
@@ -153,7 +153,7 @@ class DashboardCreationGuide:
         print("• Click '+ DATABASE'")
         print("• Select 'Microsoft SQL Server'")
         print("• SQLAlchemy URI:")
-        print("  mssql+pymssql://sa:PTXYZSecure123!@sqlserver:1433/PTXYZ_DataWarehouse")
+        print("  mssql+pymssql://sa:<MSSQL_SA_PASSWORD>@sqlserver:1433/PTXYZ_DataWarehouse")
         print("• Test connection and save")
         self.wait_for_user("Complete database connection and press Enter")
         
@@ -200,7 +200,7 @@ class DashboardCreationGuide:
         print("  - Port: 1433")
         print("  - Database: PTXYZ_DataWarehouse")
         print("  - Username: sa")
-        print("  - Password: PTXYZSecure123!")
+        print("  - Password: <MSSQL_SA_PASSWORD>")
         self.wait_for_user("Complete database setup and press Enter")
         
         self.print_step(3, "Create Questions (Charts)")
@@ -245,7 +245,7 @@ import plotly.express as px
 conn = pymssql.connect(
     server='sqlserver',
     user='sa', 
-    password='PTXYZSecure123!',
+    password=os.environ['MSSQL_SA_PASSWORD'],
     database='PTXYZ_DataWarehouse'
 )
 
